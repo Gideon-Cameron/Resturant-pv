@@ -25,7 +25,6 @@ import {
     total: number;
     address: string | null;
   
-    // ✅ NEW (optional)
     phone?: string | null;
   }
   
