@@ -20,33 +20,62 @@ const Show: React.FC = () => {
   }, []);
 
   return (
-    <section className="w-full bg-white py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
+    <section className="relative w-full overflow-hidden bg-[#05070A] py-24">
+      {/* Background Texture */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,.03) 3px)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* TITLE */}
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-extrabold text-gray-900">
-            Find the Flavor You Love
+        <div className="mb-14 text-center">
+          <div className="mx-auto mb-5 h-1 w-20 rounded-full bg-[#67C24A]" />
+
+          <h2 className="text-4xl font-extrabold sm:text-5xl">
+            <span className="text-white">Find the</span>{" "}
+            <span className="text-[#67C24A]">Flavor</span>{" "}
+            <span className="text-white">You Love</span>
           </h2>
-          <p className="mt-4 text-lg text-gray-600">
-            Crafted with bold ingredients and unforgettable taste.
+
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-gray-400">
+            Crafted with bold ingredients, rich tradition, and unforgettable
+            taste. Every dish is made to bring people together through flavor.
           </p>
         </div>
 
         {/* SLIDESHOW */}
-        <div className="relative mx-auto h-[400px] max-w-4xl overflow-hidden rounded-2xl shadow-xl">
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Slide ${index + 1}`}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-                index === currentIndex ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
-        </div>
+        <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-[#0B1118] shadow-2xl">
+          <div className="relative h-[450px] md:h-[550px]">
+            {images.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`Slide ${index + 1}`}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                  index === currentIndex ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+          </div>
 
+          {/* Slide Indicators */}
+          <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-3">
+            {images.map((_, index) => (
+              <div
+                key={index}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? "w-8 bg-[#67C24A]"
+                    : "w-2 bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
