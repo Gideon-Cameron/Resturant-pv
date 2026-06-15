@@ -75,6 +75,7 @@ const About: React.FC = () => {
           </div>
         </div>
       </div>
+      <div className="absolute top-0 left-1/2 h-px w-3/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#67C24A]/40 to-transparent" />
     </section>
   );
 };
