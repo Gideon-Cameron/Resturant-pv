@@ -77,16 +77,22 @@ const CartPopup: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center overflow-y-auto p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-sm sm:items-center">
       <div className="absolute inset-0" onClick={closeCart} />
 
-      <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-t-2xl bg-white p-6 shadow-xl sm:rounded-2xl">
+      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-t-3xl border border-white/10 bg-[#0B1118] p-6 shadow-2xl sm:rounded-3xl">
+        {/* Accent Bar */}
+        <div className="mb-6 h-1 w-20 rounded-full bg-[#67C24A]" />
+
         {/* HEADER */}
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Confirm Your Order</h2>
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-white">
+            Confirm Your Order
+          </h2>
+
           <button
             onClick={closeCart}
-            className="text-gray-500 hover:text-gray-800"
+            className="text-gray-400 transition-colors hover:text-white"
             aria-label="Close cart"
           >
             ✕
@@ -94,39 +100,42 @@ const CartPopup: React.FC = () => {
         </div>
 
         {/* ORDER TYPE */}
-        <div className="mb-6 space-y-2">
-          <div className="font-medium text-gray-800">Order Type</div>
+        <div className="mb-6 space-y-3">
+          <div className="font-medium text-white">Order Type</div>
 
-          <label className="flex items-center gap-2">
+          <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-[#101720] px-4 py-3 text-gray-300 transition-colors hover:border-[#67C24A]/40">
             <input
               type="radio"
               checked={orderType === "pickup"}
               onChange={() => setOrderType("pickup")}
+              className="accent-[#67C24A]"
             />
             Pickup
           </label>
 
-          <label className="flex items-center gap-2">
+          <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-[#101720] px-4 py-3 text-gray-300 transition-colors hover:border-[#67C24A]/40">
             <input
               type="radio"
               checked={orderType === "delivery"}
               onChange={() => setOrderType("delivery")}
+              className="accent-[#67C24A]"
             />
             Delivery (+£{DELIVERY_FEE})
           </label>
 
           {orderType === "delivery" && (
             <>
-              <div className="mt-2 rounded-md bg-yellow-50 border border-yellow-200 p-3 text-sm text-yellow-800">
-                🚚 Delivery is available <strong>only within Northampton</strong>.
-                Orders outside this area may be cancelled.
+              <div className="mt-3 rounded-xl border border-[#67C24A]/20 bg-[#67C24A]/10 p-4 text-sm text-gray-300">
+                🚚 Delivery is available{" "}
+                <strong>only within Northampton</strong>. Orders outside this
+                area may be cancelled.
               </div>
 
               <input
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Delivery address"
-                className="mt-2 w-full rounded border px-3 py-2 text-sm"
+                className="mt-3 w-full rounded-xl border border-white/10 bg-[#101720] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[#67C24A] focus:outline-none"
               />
             </>
           )}
@@ -134,37 +143,42 @@ const CartPopup: React.FC = () => {
 
         {/* OPTIONAL PHONE */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-800 mb-1">
+          <label className="mb-2 block text-sm font-medium text-white">
             Phone number (optional)
           </label>
+
           <input
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Add a phone number to be notified when your order is ready"
-            className="w-full rounded border px-3 py-2 text-sm"
+            className="w-full rounded-xl border border-white/10 bg-[#101720] px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:border-[#67C24A] focus:outline-none"
           />
         </div>
 
         {/* ITEMS */}
-        <ul className="max-h-64 space-y-3 overflow-y-auto">
+        <ul className="max-h-64 space-y-3 overflow-y-auto pr-1">
           {Object.values(groupedItems).map(({ item, qty }) => (
             <li
               key={item.id}
-              className="flex justify-between border-b pb-2 text-gray-800"
+              className="flex justify-between rounded-xl border border-white/10 bg-[#101720] p-4 text-white"
             >
               <div>
-                <div className="font-medium">{item.name}</div>
-                <div className="text-sm text-gray-500">
+                <div className="font-medium text-white">{item.name}</div>
+
+                <div className="text-sm text-gray-400">
                   £{item.price} × {qty}
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="font-semibold">£{item.price * qty}</span>
+                <span className="font-semibold">
+                  £{item.price * qty}
+                </span>
+
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-400 transition-colors hover:text-red-300"
                   aria-label="Remove item"
                 >
                   ✕
@@ -175,20 +189,20 @@ const CartPopup: React.FC = () => {
         </ul>
 
         {/* TOTAL */}
-        <div className="mt-6 space-y-1 text-sm">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#101720] p-4 text-sm text-gray-300">
           <div className="flex justify-between">
             <span>Subtotal</span>
             <span>£{total}</span>
           </div>
 
           {orderType === "delivery" && (
-            <div className="flex justify-between">
+            <div className="mt-2 flex justify-between">
               <span>Delivery</span>
               <span>£{DELIVERY_FEE}</span>
             </div>
           )}
 
-          <div className="flex justify-between text-lg font-bold">
+          <div className="mt-3 flex justify-between border-t border-white/10 pt-3 text-xl font-bold text-white">
             <span>Total</span>
             <span>£{finalTotal}</span>
           </div>
@@ -199,16 +213,17 @@ const CartPopup: React.FC = () => {
           <button
             onClick={handleConfirm}
             disabled={
-              isSubmitting || (orderType === "delivery" && address.trim() === "")
+              isSubmitting ||
+              (orderType === "delivery" && address.trim() === "")
             }
-            className="w-full rounded-lg bg-green-600 py-3 font-semibold text-white transition hover:bg-green-700 disabled:opacity-50"
+            className="w-full rounded-xl bg-[#67C24A] py-4 font-semibold text-white shadow-lg shadow-green-900/30 transition-all duration-300 hover:bg-[#74d455] hover:shadow-green-700/30 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? "Placing Order…" : "Confirm Order"}
           </button>
 
           <button
             onClick={clearCart}
-            className="w-full text-sm font-medium text-red-600 hover:underline"
+            className="w-full text-sm font-medium text-red-400 transition-colors hover:text-red-300"
           >
             Clear Cart
           </button>
